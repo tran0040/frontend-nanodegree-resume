@@ -13,6 +13,7 @@ var bio = {
     location: 'Singapore',
   },
   welcomeMessage: 'Welcome to my Interactive Resume',
+  picture: 'images/fry.jpg',
   skills: [
     'Java', 'JavaScript', 'SAP', 'ABAP',
   ],
@@ -26,6 +27,13 @@ var work = {
       dates: 1596,
       location: 'Singapore',
       description: 'Specialize in BPC and HR',
+    },
+    {
+      title: 'Intern Engineering',
+      employer: 'Qualcomm',
+      dates: 180,
+      location: 'Singapore',
+      description: 'Develop an utiltily software to automate the process of chip testing and create report',
     },
   ],
 };
@@ -77,23 +85,19 @@ var education = {
   ],
 };
 
-if (bio.name !== null) {
-  var formattedName = HTMLheaderName.replace(DATA, bio.name);
-  $('#header').append(formattedName);
-}
+var formattedName = (bio.name !== null ? HTMLheaderName.replace(DATA, bio.name) : null);
+$('#header').append(formattedName);
 
-if (bio.role !== null) {
-  var formattedRole = HTMLheaderRole.replace(DATA, bio.role);
-  $('#header').append(formattedRole);
-}
+var formattedRole = (bio.role !== null ? HTMLheaderRole.replace(DATA, bio.role) : null);
+$('#header').append(formattedRole);
+
+var formattedPic = (bio.picture !== null ? HTMLbioPic.replace(DATA, bio.picture) : null);
+$('#header').append(formattedPic);
+
+var formattedMessage = (bio.welcomeMessage !== null ? HTMLwelcomeMsg.replace(DATA,    bio.welcomeMessage) : null);
+$('#header').append(formattedMessage);
 
 if (bio.contacts !== null) {
-  // for (var property in bio.contacts) {
-  //   if (bio.contacts.hasOwnProperty(property)) {
-  //     var formattedEmail = (property.name == 'email' ? HTMLemail.replace(DATA, property) : null);
-  //     $('#header').append((formattedEmail));
-  //   }
-  // }
   Object.keys(bio.contacts).forEach(function f(key, index) {
     var formattedEmail = (key === 'email' ? HTMLemail.replace(DATA, bio.contacts[key]) :
       null);
@@ -123,8 +127,22 @@ if (bio.skills.length > 0) {
     var formattedSkill = HTMLskills.replace(DATA, item);
     $('#skills').append(formattedSkill);
   });
+}
 
-  console.log(bio.skills);
-  console.log(HTMLskillsStart);
-  console.log(HTMLskills.replace(DATA, bio.skills));
+if (work !== null) {
+  work.jobs.forEach(function f(job) {
+    $('#workExperience').append(HTMLworkStart);
+
+    var formattedWorkEmployer =
+      (job.employer !== null ? HTMLworkEmployer.replace(DATA, job.employer) : null);
+    console.log(formattedWorkEmployer);
+    var formattedWorkTitle = (job.title !== null ? HTMLworkTitle.replace(DATA, job.title) :
+      null);
+    var formattedWorkDate = (job.dates !== null ? HTMLworkDates.replace(DATA, job.dates) : null);
+    var formattedWorkDescription = (job.description !== null ? HTMLworkDescription.replace(DATA,
+      job.description) : null);
+
+    $('.work-entry:last').append(formattedWorkEmployer + formattedWorkTitle);
+    $('.work-entry:last').append(formattedWorkDate + formattedWorkDescription);
+  });
 }
